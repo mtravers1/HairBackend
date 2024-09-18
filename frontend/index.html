@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+</head>
+<body>
+    <div>
+        <div id="sub">
+
+        </div>
+        <form>
+            <label>id</label>
+            <input id="id"/>
+            <label></label>
+            <label>Style</label>
+            <input id="style"/>
+            <label>Price</label>
+            <input id="price"/>
+            <label>Name</label>
+            <input id="name"/>
+            <button id="button">Submit</button>
+            <button id="post">Post</button>
+            <button id="updata">Update</button>
+
+        </form>
+        <div id="hair">
+            <button id="button1">Click to get all submissions</button>
+        </div>
+        <script>
+            $(document).ready(function(){
+                const url='http://localhost:8080'
+                $("#button1").click(function(){
+                    $.get(url, function(data, status){
+                    console.log(data)
+                    $.each(data, function(key, val){
+                        $("#sub").append("<p>"+val.name+"</p><button id=''> delete<button> ")
+                    })
+                })
+                })
+                
+            })
+        </script>
+        <script>
+            $(document).ready(function(){
+                $("#updata").click(function(e){
+                    e.preventDefault()
+                    let ids = $("#id").val()
+                    // let names = $("#name").val()
+                    // let styles = $("#style").val()
+                    // let prices = $("#price").val()
+                    
+
+                    $.ajax({
+                        url:`http://localhost:8080/${ids}`,
+                        type:"Put",
+                        // data:JSON.stringify(dada),
+                        contentType:"application/json",
+                        success:function(){
+                            alert("updated")
+                        }
+                })
+                })
+            })
+        </script>
+        <script>
+            $(document).ready(function(){
+                
+                $("#delete").click(function(e){
+                    e.preventDefault()
+                    console.log("deleted")
+                    // $.get('http://localhost:8080', function(data, status){
+                    
+                    // $.ajax({
+                    //     url:`http://localhost:8080/${data.id}`,
+                    //     type:"Delete",
+                    //     success:function(){
+                    //         alert("deleted")
+                    //     }
+
+                    // })
+                    // })
+
+
+
+                   
+
+                })
+            })
+        </script>
+        <script>
+            $(document).ready(function(){
+                $("#button").click(function(e){
+                    e.preventDefault()
+
+                    let name = $("#name").val()
+                    let style = $("#style").val()
+                    let price = $("#price").val()
+
+                    $("#sub").append("<p>"+name+"</p><p>"+style+"</p><p>"+price+"</p>")
+                })
+            })
+        </script>
+        <script>
+            $(document).ready(function(){
+                const urls='http://localhost:8080'
+
+                $("#post").click(function(e){
+                    e.preventDefault()
+                    // let ids = $("#id").val()
+                    // let names = $("#name").val()
+                    // let styles = $("#style").val()
+                    // let prices = $("#price").val()
+                    let dada= {
+                    id: $("#id").val(),
+                    name: $("#name").val(),
+                    style : $("#style").val(),
+                    price : $("#price").val()
+                    }
+                    $.ajax({
+                    url:urls,
+                    type:"POST",
+                    data:JSON.stringify(dada),
+                    // data:{id:ids, style:styles, price:prices, name:name}, 
+                    contentType:"application/json",
+                    success:function(data){
+                        console.log("Success")
+                    }
+                    }
+                   )
+                })
+            })
+        </script>
+    </div>
+</body>
+
